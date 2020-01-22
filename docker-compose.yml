@@ -1,8 +1,30 @@
 version: '2.1'
 
 services:
-  k8slabs:
-    image: k8slabs
-    build: .
+  movieapp:
+    image: movieapp 
+    build:
+       context: ./src/web
+       dockerfile: Dockerfile
+    environment:
+        - movieapp=/src/web/app.py
+    # command: flask run --host=0.0.0.0
     ports:
-      - 5000:5000
+      - 8080:5000
+    networks:
+       movieappnetwork:
+            aliases:
+                - movieapp
+
+  nginx:
+        image: nginx:1.13.7
+        depends_on:
+            - movieapp
+        volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            - movieappnetwork
+        ports:
+            - 80:80
+networks: 
+    movieappnetwork:
