@@ -1,4 +1,4 @@
-# K8S Labs
+# Movie App - Python Flask
 
 ## Sample container app
 
