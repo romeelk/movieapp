@@ -15,6 +15,12 @@ movies = [
         'title': u'The Python Chronicles',
         'description': u'The journey to Python', 
         'director': 'Tom Jones'
+    },
+    {
+        'id': 3,
+        'title': u'The Python strikes back',
+        'description': u'The saga continues', 
+        'director': 'Tom Jones'
     }
 ]
 

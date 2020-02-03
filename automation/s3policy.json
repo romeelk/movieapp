@@ -1,0 +1,18 @@
+{
+    "Version": "2012-10-17",
+    "Id": "Policy1580643200587",
+    "Statement": [
+        {
+            "Sid": "Stmt1580642924042",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::rommoviestorage/*",
+            "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": "127.0.0.1"
+                }
+            }
+        }
+    ]
+}

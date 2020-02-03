@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3'
 
 services:
   movieapp:
@@ -6,13 +6,15 @@ services:
     build:
        context: ./src/web
        dockerfile: Dockerfile
-    environment:
-        - movieapp=/src/web/app.py
+    container_name: movieappweb
+    restart: unless-stopped
     ports:
       - 8080:5000
+    volumes:
+      - appdata:/var/www
+    depends_on:
+      - mongodb
     networks:
-       movieappnetwork:
-            aliases:
-                - movieapp
+      - movieappfrontend
 networks: 
     movieappnetwork:
