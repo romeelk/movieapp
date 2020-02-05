@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h1>Top 3 movies!!</h1>
+<br/>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Movie Name</th>
+        <th scope="col">Year</th>
+        <th scope="col">Description</th>
+        <th scope="col">Director</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for movie in movies %}
+             {{ movie['title'] }}
+        {%  endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -8,7 +8,7 @@ FROM python:alpine
 # If you prefer miniconda:
 #FROM continuumio/miniconda3
 
-LABEL Name=movieaweb Version=0.0.1
+LABEL Name=movieapi Version=0.0.1
 
 COPY . /app
 WORKDIR /app
