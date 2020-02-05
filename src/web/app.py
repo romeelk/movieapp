@@ -21,7 +21,7 @@ def movies():
     movies = json.loads(response.text)
     for x in movies['movies']:
         print x['title']
-    return render_template('movies.html', movies=movies)  # render a template
+    return render_template('movies.html', movies=movies['movies'])  # render a template
 
 # use decorators to link the function to a url
 @app.route('/')
