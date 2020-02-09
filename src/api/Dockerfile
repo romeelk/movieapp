@@ -11,11 +11,14 @@ LABEL MAINTAINER="Romeel Khan"
 
 ENV GROUP_ID=1000 \
     USER_ID=1000
-    
-RUN pip install -r requirements.txt
+
+WORKDIR /app
+COPY requirements.txt app/requirements.txt
+
+RUN pip install -r app/requirements.txt
 RUN addgroup -g $GROUP_ID www
 RUN adduser -D -u $USER_ID -G www www -s /bin/sh
-WORKDIR /app
+
 COPY . /app
 USER www
 
