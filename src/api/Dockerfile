@@ -7,12 +7,18 @@ FROM python:alpine
 
 # If you prefer miniconda:
 #FROM continuumio/miniconda3
+LABEL MAINTAINER="Romeel Khan"
 
-LABEL Name=movieapi Version=0.0.1
-
-COPY . /app
-WORKDIR /app
+ENV GROUP_ID=1000 \
+    USER_ID=1000
+    
 RUN pip install -r requirements.txt
+RUN addgroup -g $GROUP_ID www
+RUN adduser -D -u $USER_ID -G www www -s /bin/sh
+WORKDIR /app
+COPY . /app
+USER www
+
 ENTRYPOINT ["python"]
 CMD ["app.py"]
 

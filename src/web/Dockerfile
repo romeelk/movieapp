@@ -10,8 +10,10 @@ FROM python:alpine
 
 LABEL Name=movieaweb Version=0.0.1
 
-COPY . /app
+EXPOSE 5000
+
 WORKDIR /app
+COPY . /app
 RUN pip install -r requirements.txt
 ENTRYPOINT ["python"]
 CMD ["app.py"]

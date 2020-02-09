@@ -11,6 +11,6 @@ services:
       MONGODB_PASSWORD: example123!
       MONGODB_HOSTNAME: mongodb
     ports:
-      - 8080:5000
+      - 5000:5000
 
   

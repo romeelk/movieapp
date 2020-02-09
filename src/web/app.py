@@ -6,7 +6,6 @@ import json
 
 from flask import Flask, render_template
 
-
 # create the application object
 app = Flask(__name__)
 
@@ -19,8 +18,6 @@ def movies():
     movieappurl  = os.environ.get("MOVIEAPIURL")
     response = requests.get(movieappurl)
     movies = json.loads(response.text)
-    for x in movies['movies']:
-        print x['title']
     return render_template('movies.html', movies=movies['movies'])  # render a template
 
 # use decorators to link the function to a url
