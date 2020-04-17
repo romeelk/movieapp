@@ -8,13 +8,14 @@ FROM python:alpine
 # If you prefer miniconda:
 #FROM continuumio/miniconda3
 
-LABEL Name=movieaweb Version=0.0.1
+LABEL MAINTAINER="Romeel Khan"
 
 EXPOSE 5000
 
 WORKDIR /app
 COPY . /app
 RUN pip install -r requirements.txt
+RUN pip3 install requests
 ENTRYPOINT ["python"]
 CMD ["app.py"]
 

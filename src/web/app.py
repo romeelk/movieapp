@@ -3,8 +3,13 @@ import requests
 import os
 import logging
 import json
+import dotenv
+
 
 from flask import Flask, render_template
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # create the application object
 app = Flask(__name__)
@@ -17,10 +22,11 @@ def page_not_found(error):
 def movies():
     movieappurl  = os.environ.get("MOVIEAPIURL")
     response = requests.get(movieappurl)
+    print(movieappurl)
     movies = json.loads(response.text)
     return render_template('movies.html', movies=movies['movies'])  # render a template
 
-# use decorators to link the function to a url
+
 @app.route('/')
 def home():
     return render_template('welcome.html')  # render a template

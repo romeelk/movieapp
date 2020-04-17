@@ -1,20 +1,17 @@
-version: '3'
+version: '3.4'
 
 services:
   movieapp:
-    image: movieapp 
+    image: movieapp
     build:
-       context: ./src/web
-       dockerfile: Dockerfile
-    container_name: movieappweb
-    # restart: unless-stopped
-    volumes:
-      - appdata:/app
-    networks:
-      - movieappfrontend
-volumes:
-  appdata:
-    driver: local
-networks:
-  movieappfrontend:
-    driver: bridge
+      context: ./src/web
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+  movieapi:
+    image: movieapi
+    build:
+      context: ./src/api
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"

@@ -13,6 +13,8 @@ LABEL MAINTAINER="Romeel Khan"
 ENV GROUP_ID=1000 \
     USER_ID=1000
 
+EXPOSE 5001
+
 #Set container work directory
 WORKDIR /app
 

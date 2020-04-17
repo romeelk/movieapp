@@ -24,6 +24,13 @@ movies = [
         'year':u'2019',
         'description': u'The saga continues', 
         'director': 'Tom Jones'
+    },
+    {
+        'id': 4,
+        'title': u'The Python tales',
+        'year':u'2019',
+        'description': u'Tales of ptyhon', 
+        'director': 'Tom Jones'
     }
 ]
 
