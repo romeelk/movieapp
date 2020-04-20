@@ -30,6 +30,5 @@ jobs:
         pip install -r requirements.txt
       working-directory:  ${{working-directory}}
     - name: python-lint
-      working-directory:  ${{working-directory}}
     - uses: CyberZHG/github-action-python-lint@0.0.2
 
