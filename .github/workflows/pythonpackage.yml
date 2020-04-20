@@ -12,12 +12,13 @@ on:
 jobs:
   buildweb:
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./src/web 
     strategy:
       matrix:
         python-version: [3.5, 3.6, 3.7, 3.8]
-
+    defaults:
+     run:
+      shell: bash
+      working-directory: ./src/web
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -25,6 +26,8 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
+
+      
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
