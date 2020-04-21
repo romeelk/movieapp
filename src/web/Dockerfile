@@ -17,7 +17,7 @@ COPY . /app
 RUN pip install -r requirements.txt
 RUN pip3 install requests
 ENTRYPOINT ["python"]
-CMD ["app.py"]
+CMD ["run.py"]
 
 # Using pipenv:
 #RUN python3 -m pip install pipenv

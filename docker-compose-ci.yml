@@ -4,4 +4,7 @@ services:
   movieapp:
     environment:
       - MOVIEAPIURL=http://movieapi:5001/movies
+      - MONGO_DBNAME=movies
+      - MONGO_URI=mongodb://localhost:27017/movies
+      - FLASK_ENV=development
 
