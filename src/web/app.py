@@ -10,7 +10,6 @@ from flask import Flask, render_template
 from dotenv import load_dotenv
 load_dotenv()
 
-
 # create the application object
 app = Flask(__name__)
 
@@ -20,12 +19,11 @@ def page_not_found(error):
 
 @app.route('/Movies')
 def movies():
-    movieappurl  = os.environ.get("MOVIEAPIURL")
+    movieappurl  =  os.environ.get("MOVIEAPIURL")
+    app.logger.info(movieappurl)
     response = requests.get(movieappurl)
-    print(movieappurl)
     movies = json.loads(response.text)
     return render_template('movies.html', movies=movies['movies'])  # render a template
-
 
 @app.route('/')
 def home():
