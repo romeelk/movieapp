@@ -1,7 +1,6 @@
 import os
 
 from movieapp import init_app
-
 from dotenv import load_dotenv
 
 try:

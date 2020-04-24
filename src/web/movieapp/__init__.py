@@ -7,6 +7,7 @@ import dotenv
 
 
 from flask import Flask, render_template
+from db
 
 def init_app():
     app = Flask(__name__)
