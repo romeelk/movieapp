@@ -4,10 +4,7 @@ import os
 import logging
 import json
 import dotenv
-
-
 from flask import Flask, render_template
-from db
 
 def init_app():
     app = Flask(__name__)
@@ -24,14 +21,8 @@ def init_app():
         app.logger.info(app.config.get("MOVIEAPIURL"))
         response = requests.get(app.config.get("MOVIEAPIURL"))
         movies = json.loads(response.text)
-        return render_template('movies.html', movies=movies['movies'])  # render a template
-
+        return render_template('movies.html', movies=movies['movies']) 
     @app.route('/')
     def home():
         return render_template('welcome.html')  # render a template
-    
     return app
-
-
-
-
