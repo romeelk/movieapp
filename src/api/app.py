@@ -7,7 +7,6 @@ app = Flask(__name__)
 
 monogoclient = pymongo.MongoClient("mongodb://localhost:27017/")
 
-
 @app.route('/movies', methods=['GET'])
 def get_movies():
 
