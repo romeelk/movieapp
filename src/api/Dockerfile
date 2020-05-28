@@ -30,7 +30,7 @@ COPY . /app
 USER www
 
 ENTRYPOINT ["python"]
-CMD ["app.py"]
+CMD ["run.py"]
 
 # Using pipenv:
 #RUN python3 -m pip install pipenv

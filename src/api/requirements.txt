@@ -1,2 +1,4 @@
 flask
 jsonify
+python-dotenv
+pymongo

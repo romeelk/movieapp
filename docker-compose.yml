@@ -15,3 +15,16 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5001:5001"
+  mongodb:
+        image: mongo:3.2
+        volumes:
+           - ./src/mongo-seed/data:/data/db
+        ports:
+          - "27017:27017"
+  mongo-seed:
+        build: src/mongo-seed/.
+        links:
+          - mongodb
+
+volumes:
+    data-volume:
