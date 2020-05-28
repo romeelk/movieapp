@@ -28,3 +28,6 @@ venv/
 *.pyc
 build
 web/movieapp/.env
+src/mongo-seed/data/
+src/web/.env
+src/api/.env
