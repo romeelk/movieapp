@@ -9,7 +9,7 @@ def init_app():
     app = Flask(__name__)
     app.logger.info("Loading settings from settings.py")
     app.config.from_pyfile('settings.py')
-    app.logger.info("app configured for api at uri %s", 
+    app.logger.info("app configured for api at uri %s",
                     app.config.get("MOVIEAPIURL"))
 
     @app.errorhandler(404)
