@@ -1,10 +1,9 @@
-import os
 import sys
 
 
 from movieapi import init_api
 from dotenv import load_dotenv
-import sys
+
 try:
     app = init_api()
     load_dotenv()
