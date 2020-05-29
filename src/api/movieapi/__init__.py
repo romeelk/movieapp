@@ -9,9 +9,10 @@ def init_api():
     app = Flask(__name__)
     app.logger.info("Loading settings from settings.py")
     app.config.from_pyfile('settings.py')
-    app.logger.info("mongo uri configured for api %s",app.config.get("MONGO_URI"))
+    app.logger.info("mongo uri configured for api %s",
+                    app.config.get("MONGO_URI"))
 
-    if(environ.get("MONGO_URI") == None):
+    if(environ.get("MONGO_URI") is None):
         app.logger.info("No env var for MONGOURI default to localhost")
         monogoclient = pymongo.MongoClient("mongodb://localhost:27017/")
     else:
