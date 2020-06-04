@@ -9,8 +9,8 @@ username = os.getenv("MONGO_USERNAME")
 password = os.getenv("MONGO_PASSWORD")
 args = "ssl=true&retrywrites=false&ssl_cert_reqs=CERT_NONE"
 
-connection_uri = f"mongodb://{username}:{password}@{host}:{port}/{db_name}?{args}"
-client = MongoClient(connection_uri)
+connuri = f"mongodb://{username}:{password}@{host}:{port}/{db_name}/?{args}"
+client = MongoClient(connuri)
 
 db = client[db_name]
 user_collection = db['user']
