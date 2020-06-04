@@ -10,7 +10,7 @@ reviews.
 The stack being used is:
 * Frontend - Apache Flask
 * Backend  - A couple of REST APIs
-* Redis - have not decided yet!!
+* Mongodb/cosmosdb
 
 The aim is to use this reference app to place the front end and backend into containers. Push it to
 a secure container registry (ACR). Then make it ready for AKS. Optionally deploy it to Web App for containers

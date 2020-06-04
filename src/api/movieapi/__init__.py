@@ -12,11 +12,7 @@ def init_api():
     app.logger.info("mongo uri configured for api %s",
                     app.config.get("MONGO_URI"))
 
-    if(environ.get("MONGO_URI") is None):
-        app.logger.info("No env var for MONGO_URI default to localhost")
-        monogoclient = pymongo.MongoClient("mongodb://localhost:27017/")
-    else:
-        monogoclient = pymongo.MongoClient(app.config.get("MONGO_URI"))
+    monogoclient = pymongo.MongoClient(app.config.get("MONGO_URI"))
 
     @app.route('/movies', methods=['GET'])
     def get_movies():

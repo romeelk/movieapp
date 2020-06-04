@@ -3,20 +3,20 @@ import os
 
 from movieapi import init_api
 from dotenv import load_dotenv
-from os import environ
+
 
 def check_env_vars():
-   if(os.environ.get("MONGO_URI") == None):
+    if(os.environ.get("MONGO_URI") is None):
         print("env var MONGO_URI not set!!")
         sys.exit()
-        
+
+
 try:
     app = init_api()
     load_dotenv()
     check_env_vars()
-
 except Exception:
-    print("failed to load init api")
+    print("failed to load init app")
     print("Something bad happened", sys.exc_info())
 
 # remember docker does not bind to 127.0.0.1 for some reason hence host=0.0.0.0

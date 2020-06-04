@@ -4,13 +4,14 @@ import sys
 
 from movieapp import init_app
 from dotenv import load_dotenv
-from os import environ
+
 
 def check_env_vars():
-   if(os.environ.get("MOVIEAPIURL") == None):
+    if(os.environ.get("MOVIEAPIURL") is None):
         print("env var MOVIEAPIURL not set!!")
         sys.exit()
-    
+
+
 try:
     app = init_app()
     load_dotenv()
