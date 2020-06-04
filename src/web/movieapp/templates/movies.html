@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<h1>Top 3 movies!!</h1>
+
+<h1>Top {{ movies|length }} movies!!</h1>
+
 <br/>
 
 <table class="table">

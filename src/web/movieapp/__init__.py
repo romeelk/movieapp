@@ -3,7 +3,6 @@ import json
 
 from flask import Flask, render_template
 
-
 def init_app():
 
     app = Flask(__name__)

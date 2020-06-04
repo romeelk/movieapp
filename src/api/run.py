@@ -1,12 +1,20 @@
 import sys
-
+import os
 
 from movieapi import init_api
 from dotenv import load_dotenv
+from os import environ
 
+def check_env_vars():
+   if(os.environ.get("MONGO_URI") == None):
+        print("env var MONGO_URI not set!!")
+        sys.exit()
+        
 try:
     app = init_api()
     load_dotenv()
+    check_env_vars()
+
 except Exception:
     print("failed to load init api")
     print("Something bad happened", sys.exc_info())

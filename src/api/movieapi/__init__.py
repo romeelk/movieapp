@@ -13,7 +13,7 @@ def init_api():
                     app.config.get("MONGO_URI"))
 
     if(environ.get("MONGO_URI") is None):
-        app.logger.info("No env var for MONGOURI default to localhost")
+        app.logger.info("No env var for MONGO_URI default to localhost")
         monogoclient = pymongo.MongoClient("mongodb://localhost:27017/")
     else:
         monogoclient = pymongo.MongoClient(app.config.get("MONGO_URI"))
