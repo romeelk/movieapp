@@ -22,14 +22,13 @@ def init_app():
 
     @app.route('/Movies')
     def movies():
-        try: 	
+        try:
             app.logger.info(app.config.get("MOVIEAPIURL"))
-            response = requests.get(app.config.get("MOVIEAPIURL")) 
-        
+            response = requests.get(app.config.get("MOVIEAPIURL"))
             movies = json.loads(response.text)
             return render_template('movies.html', movies=movies['movies'])
-        except Exception as e:
-	        return render_template('unhandled.html'), 500
+        except Exception:
+            return render_template('unhandled.html'), 500
 
     @app.route('/')
     def home():
