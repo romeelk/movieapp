@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: movieweb
+  labels:
+    app: movieweb
+spec:
+  selector:
+    app: movieweb
+    tier: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      nodePort: 30081
+      targetPort: 5000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movieweb
+spec:
+  selector:
+    matchLabels:
+      app: movieweb
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: movieweb
+        tier: frontend
+    spec:
+      containers:
+      - name: movieapp
+        image: movieapp
+        imagePullPolicy: Never
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: MOVIEAPIURL
+          value: "http://movieapi:80/movies"
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: movieapi
+  labels:
+    app: movieapi
+spec:
+  selector:
+    app: movieapi
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 80
+      nodePort: 30082
+      targetPort: 5001
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movieapi
+spec:
+  selector:
+    matchLabels:
+      app: movieapi
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: movieapi
+        tier: backend
+    spec:
+      containers:
+      - name: movieapi
+        image: movieapi
+        imagePullPolicy: Never
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: MONGO_DBNAME
+          value: movies
+        - name: MONGO_URI
+          value: mongodb://root:UiuDLeM4Mn@mongodb-1592347563.default.svc.cluster.local:27017/ #changes every time you deploy
+        ports:
+        - containerPort: 5001
