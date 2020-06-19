@@ -87,7 +87,12 @@ spec:
         env:
         - name: MONGO_DBNAME
           value: movies
+        - name: FLASK_ENV
+          value: development
         - name: MONGO_URI
-          value: mongodb://root:UiuDLeM4Mn@mongodb-1592347563.default.svc.cluster.local:27017/ #changes every time you deploy
+          valueFrom:
+              secretKeyRef:
+                name: movieappsecret
+                key: mongodburi
         ports:
         - containerPort: 5001

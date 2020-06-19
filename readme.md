@@ -27,3 +27,73 @@ Here are a few:
 * Externalised config from application code through environment variables
 * Keep secrets out of configuration (API Keys)
 
+## Running the app using docker compose
+
+To build the app using docker compose run the following command:
+
+docker-compose build --no-cache 
+
+To bring up the container use:
+
+docker-compose -f docker-compose.yml -f docker-compose-ci.yml up
+
+## Running the app using K8s locally
+
+You can enable Kubernetes locally on Docker desktop. Once you have done that
+make sure you switch context to the docker-desktop cluster. Easy way to do this is to install
+the vs code K8s extension. Go to the extension. In the clusters list select docker-desktop and
+set as current cluster.
+
+There are two steps to deploying. First deploy a mongodb locally using the bitnami helm chart:
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm install bitnami/mongodb --generate-name
+
+The following output is printed below:
+
+MongoDB can be accessed via port 27017 on the following DNS name from within your cluster:
+    mongodb-1592347563.default.svc.cluster.local
+
+Record the name of the mongodb fqdn within the cluster
+
+Get the root password
+
+```
+export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace default mongodb-1592347563 -o jsonpath="{.data.mongodb-root-password}" | base64 --decode)
+```
+
+You can connect to mongdb using:
+```
+kubectl run --namespace default mongodb-1592347563-client --rm --tty -i --restart='Never' --image docker.io/bitnami/mongodb:4.2.8-debian-10-r4 --command -- mongo admin --host mongodb-1592347563 --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
+```
+To connect to your database from outside the cluster execute the following commands:
+```
+kubectl port-forward --namespace default svc/mongodb-1592347563 27017:27017 &
+mongo --host 127.0.0.1 --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
+```
+Create a k8s secret for the mongodb connection string:
+```
+kubectl create secret generic movieappsecret --from-literal=mongodburi=mongodb://root:$MONGODB_ROOT_PASSWORD@mongodb-1592347563.default.svc.cluster.local:27017/
+
+```
+
+Reference the secret in the deployment manifest for the movieapi pod as follows:
+
+```
+env:
+    - name: MONGO_DBNAME
+        value: movies
+    - name: MONGO_URI
+        valueFrom:
+            secretKeyRef:
+            name: movieappsecret
+            key: mongodburi
+```
+
+Once this is done deploy:
+
+```
+kubectl apply -f deployment-local.yaml 
+```
+
