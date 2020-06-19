@@ -57,24 +57,12 @@ MongoDB can be accessed via port 27017 on the following DNS name from within you
 
 Record the name of the mongodb fqdn within the cluster
 
-Get the root password
-
-```
-export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace default mongodb-1592347563 -o jsonpath="{.data.mongodb-root-password}" | base64 --decode)
-```
-
-You can connect to mongdb using:
-```
-kubectl run --namespace default mongodb-1592347563-client --rm --tty -i --restart='Never' --image docker.io/bitnami/mongodb:4.2.8-debian-10-r4 --command -- mongo admin --host mongodb-1592347563 --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
-```
-To connect to your database from outside the cluster execute the following commands:
-```
 kubectl port-forward --namespace default svc/mongodb-1592347563 27017:27017 &
-mongo --host 127.0.0.1 --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
+mongo --host 127.0.0.1 --authenticationDatabase admin -p <replace with password>
 ```
 Create a k8s secret for the mongodb connection string:
 ```
-kubectl create secret generic movieappsecret --from-literal=mongodburi=mongodb://root:$MONGODB_ROOT_PASSWORD@mongodb-1592347563.default.svc.cluster.local:27017/
+kubectl create secret generic movieappsecret --from-literal=mongodburi=mongodb://root:<replace password>@mongodb-1592347563.default.svc.cluster.local:27017/
 
 ```
 
