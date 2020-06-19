@@ -31,11 +31,15 @@ Here are a few:
 
 To build the app using docker compose run the following command:
 
+```
 docker-compose build --no-cache 
+```
 
 To bring up the container use:
 
+```
 docker-compose -f docker-compose.yml -f docker-compose-ci.yml up
+```
 
 ## Running the app using K8s locally
 
@@ -57,13 +61,13 @@ MongoDB can be accessed via port 27017 on the following DNS name from within you
 
 Record the name of the mongodb fqdn within the cluster
 
+```
 kubectl port-forward --namespace default svc/mongodb-1592347563 27017:27017 &
 mongo --host 127.0.0.1 --authenticationDatabase admin -p <replace with password>
 ```
 Create a k8s secret for the mongodb connection string:
 ```
 kubectl create secret generic movieappsecret --from-literal=mongodburi=mongodb://root:<replace password>@mongodb-1592347563.default.svc.cluster.local:27017/
-
 ```
 
 Reference the secret in the deployment manifest for the movieapi pod as follows:
