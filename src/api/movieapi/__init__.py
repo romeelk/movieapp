@@ -1,7 +1,7 @@
 #!flask/bin/python
 import pymongo
 from flask import Flask, jsonify
-from os import environ
+from bson.json_util import dumps
 
 
 def init_api():
@@ -12,12 +12,12 @@ def init_api():
     app.logger.info("mongo uri configured for api %s",
                     app.config.get("MONGO_URI"))
 
-    monogoclient = pymongo.MongoClient(app.config.get("MONGO_URI"))
+    mongoclient = pymongo.MongoClient(app.config.get("MONGO_URI"))
 
     @app.route('/movies', methods=['GET'])
     def get_movies():
 
-        mymoviesdb = monogoclient["movies"]
+        mymoviesdb = mongoclient["movies"]
         latestmovies = mymoviesdb["latestmovies"]
 
         documents = latestmovies.find()
@@ -27,4 +27,13 @@ def init_api():
             response.append(document)
 
         return jsonify({'movies': response})
+
+    @app.route('/movie/<title>', methods=['GET'])
+    def get_movie(title):
+
+        mymoviesdb = mongoclient["movies"]
+
+        app.logger.info(title)
+        movie = mymoviesdb.latestmovies.find_one({'title': title})
+        return dumps(movie)
     return app
