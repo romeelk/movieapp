@@ -19,7 +19,7 @@
     <tbody>
         {% for movie in movies %}
             <tr>
-              <th> <a href='/movies?title={{ movie['title'] }}'>View</a></th>
+              <th> <a href='/movie?title={{ movie['title'] }}'>View</a></th>
                 <th> {{ movie['title'] }}</th>
                 <th>  {{ movie['year'] }}</th>
                 <th> {{ movie['description'] }}</th>

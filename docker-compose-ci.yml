@@ -3,7 +3,7 @@ version: '3.4'
 services:
   movieapp:
     environment:
-      - MOVIEAPIURL=http://movieapi:5001/movies
+      - MOVIEAPIURL=http://movieapi:5001/
       - FLASK_ENV=development
   movieapi:
     environment:

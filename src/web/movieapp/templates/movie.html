@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h1> Movie info</h1>
+
+<br/>
+<form>
+    <div class="form-group row">
+        <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputTitle" value="{{ movie['title'] }}" readonly>
+      </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputYear" class="col-sm-2 col-form-label">Year</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputYear" value="{{ movie['year'] }}" readonly>
+      </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputDescription" class="col-sm-2 col-form-label">Description</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputDescription" value="{{ movie['description'] }}" readonly>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputDirector" class="col-sm-2 col-form-label">Director</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputDirector" value="{{ movie['director'] }}" readonly>
+      </div>
+    </div>
+    <img src="https://m.media-amazon.com/images/M/MV5BZGZlNWU0ZWEtNzY4MC00NDdmLTgzOTktOTgzMjBlNGMxN2ZmL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SY1000_SX705_AL_.jpg" width=300 height=400>
+  </form>
+
+{% endblock %}
