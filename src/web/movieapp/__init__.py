@@ -14,6 +14,7 @@ def init_app():
                     app.config.get("MOVIEAPIURL"))
     health = HealthCheck()
 
+
     def check_api_available():
         getapihealth = app.config.get("MOVIEAPIURL") + "/health"
         response = requests.get(getapihealth)
@@ -61,6 +62,7 @@ def init_app():
         return render_template('welcome.html')  # render a template
 
     health.add_check(check_api_available)
+    app.add_url_rule("/healthcheck", "healthcheck", view_func=lambda:
+                     health.run())
 
-    app.add_url_rule("/healthcheck", "healthcheck", view_func=lambda: health.run())
     return app
