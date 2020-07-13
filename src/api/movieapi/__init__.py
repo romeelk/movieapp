@@ -1,7 +1,6 @@
 #!flask/bin/python
 import pymongo
-from flask import Flask, jsonify
-from bson.json_util import dumps
+from flask import Flask, jsonify, abort
 
 
 def init_api():
@@ -13,6 +12,10 @@ def init_api():
                     app.config.get("MONGO_URI"))
 
     mongoclient = pymongo.MongoClient(app.config.get("MONGO_URI"))
+
+    @app.route('/health', methods=['GET'])
+    def health_check():
+        return jsonify({'status': 'ok'})
 
     @app.route('/movies', methods=['GET'])
     def get_movies():
@@ -35,5 +38,9 @@ def init_api():
 
         app.logger.info(title)
         movie = mymoviesdb.latestmovies.find_one({'title': title})
-        return dumps(movie)
+        if(movie is None):
+            return abort(404, 'movie could not be found')
+
+        movie['_id'] = str(movie['_id'])
+        return jsonify(movie)
     return app

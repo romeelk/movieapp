@@ -2,4 +2,3 @@ flask
 jsonify
 python-dotenv
 pymongo
-bson

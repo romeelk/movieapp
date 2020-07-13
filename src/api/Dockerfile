@@ -21,7 +21,9 @@ WORKDIR /app
 #Copy requirements.txt as it changes the least so the build cache is not invalidated for later layers
 COPY requirements.txt app/requirements.txt
 
+
 RUN pip install -r app/requirements.txt
+
 RUN addgroup -g $GROUP_ID www
 RUN adduser -D -u $USER_ID -G www www -s /bin/sh
 

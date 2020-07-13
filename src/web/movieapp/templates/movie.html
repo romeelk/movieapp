@@ -30,7 +30,7 @@
         <input type="text" class="form-control" id="inputDirector" value="{{ movie['director'] }}" readonly>
       </div>
     </div>
-    <img src="https://m.media-amazon.com/images/M/MV5BZGZlNWU0ZWEtNzY4MC00NDdmLTgzOTktOTgzMjBlNGMxN2ZmL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SY1000_SX705_AL_.jpg" width=300 height=400>
+    <img src="{{ movie['imageUrl'] }}" width=300 height=400>
   </form>
-
+  <p><a href="/movies">Back to movies list!</a>
 {% endblock %}
