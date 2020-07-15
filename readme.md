@@ -54,20 +54,21 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 
 helm install bitnami/mongodb --generate-name
 
-The following output is printed below:
+The following output is printed below (password export statements omitted):
 
 MongoDB can be accessed via port 27017 on the following DNS name from within your cluster:
     mongodb-1592347563.default.svc.cluster.local
 
-Record the name of the mongodb fqdn within the cluster
+Record the name of the mongodb fqdn within the cluster e.g  mongodb-1592347563.default.svc.cluster.local
+Record the root password env var $MONGODB_ROOT_PASSWORD to be used in a connection string: 
 
 ```
 kubectl port-forward --namespace default svc/mongodb-1592347563 27017:27017 &
-mongo --host 127.0.0.1 --authenticationDatabase admin -p <replace with password>
+mongo --host 127.0.0.1 --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
 ```
 Create a k8s secret for the mongodb connection string:
 ```
-kubectl create secret generic movieappsecret --from-literal=mongodburi=mongodb://root:<replace password>@mongodb-1592347563.default.svc.cluster.local:27017/
+kubectl create secret generic movieappsecret --from-literal=mongodburi=mongodb://root:$MONGODB_ROOT_PASSWORD@mongodb-1592347563.default.svc.cluster.local:27017/
 ```
 
 Reference the secret in the deployment manifest for the movieapi pod as follows:

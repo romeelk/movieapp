@@ -40,7 +40,7 @@ spec:
             cpu: "500m"
         env:
         - name: MOVIEAPIURL
-          value: "http://movieapi:80/movies"
+          value: "http://movieapi:80/"
         ports:
         - containerPort: 5000
 ---

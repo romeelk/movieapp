@@ -1,7 +1,7 @@
 #!flask/bin/python
 import pymongo
 from flask import Flask, jsonify, abort
-
+from healthcheck import HealthCheck
 
 def init_api():
 
@@ -12,10 +12,17 @@ def init_api():
                     app.config.get("MONGO_URI"))
 
     mongoclient = pymongo.MongoClient(app.config.get("MONGO_URI"))
+    health = HealthCheck()
 
-    @app.route('/health', methods=['GET'])
-    def health_check():
-        return jsonify({'status': 'ok'})
+    def check_mongo_available():
+        
+        try:
+            mongoclient = pymongo.MongoClient(app.config.get("MONGO_URI"), serverSelectionTimeoutMS = 2000)
+            mongoclient.server_info() # will throw an exception
+        except:
+            app.logger.info("Error establishing connection to mongodb:%s", app.config.get("MONGO_URI"))
+            return False, "mongodb failed connection"
+        return True, "mongodb ok"
 
     @app.route('/movies', methods=['GET'])
     def get_movies():
@@ -35,7 +42,6 @@ def init_api():
     def get_movie(title):
 
         mymoviesdb = mongoclient["movies"]
-
         app.logger.info(title)
         movie = mymoviesdb.latestmovies.find_one({'title': title})
         if(movie is None):
@@ -43,4 +49,8 @@ def init_api():
 
         movie['_id'] = str(movie['_id'])
         return jsonify(movie)
+
+    health.add_check(check_mongo_available)
+    app.add_url_rule("/healthcheck", "healthcheck", view_func=lambda:
+                    health.run())
     return app

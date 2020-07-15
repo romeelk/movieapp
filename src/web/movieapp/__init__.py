@@ -14,9 +14,8 @@ def init_app():
                     app.config.get("MOVIEAPIURL"))
     health = HealthCheck()
 
-
     def check_api_available():
-        getapihealth = app.config.get("MOVIEAPIURL") + "/health"
+        getapihealth = app.config.get("MOVIEAPIURL") + "/healthcheck"
         response = requests.get(getapihealth)
         if(response.status_code == 200):
             return True, "movieapi ok"
