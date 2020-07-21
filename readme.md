@@ -1,3 +1,5 @@
+![Python package](https://github.com/romeelk/movieapp/workflows/Python%20package/badge.svg)
+
 # Movie App - Python Flask
 
 ## Sample container app
