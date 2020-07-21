@@ -1,7 +1,9 @@
 #!flask/bin/python
 import pymongo
+
 from flask import Flask, jsonify, abort
 from healthcheck import HealthCheck
+
 
 def init_api():
 
@@ -15,12 +17,15 @@ def init_api():
     health = HealthCheck()
 
     def check_mongo_available():
-        
+
         try:
-            mongoclient = pymongo.MongoClient(app.config.get("MONGO_URI"), serverSelectionTimeoutMS = 2000)
-            mongoclient.server_info() # will throw an exception
-        except:
-            app.logger.info("Error establishing connection to mongodb:%s", app.config.get("MONGO_URI"))
+            mongoclient = pymongo.MongoClient(
+                                              app.config.get("MONGO_URI"),
+                                              serverSelectionTimeoutMS=2000)
+            mongoclient.server_info()
+        except Exception:
+            app.logger.info("Error establishing connection to mongodb:%s",
+                            app.config.get("MONGO_URI"))
             return False, "mongodb failed connection"
         return True, "mongodb ok"
 
@@ -52,5 +57,5 @@ def init_api():
 
     health.add_check(check_mongo_available)
     app.add_url_rule("/healthcheck", "healthcheck", view_func=lambda:
-                    health.run())
+                     health.run())
     return app
