@@ -54,7 +54,28 @@ There are two steps to deploying. First deploy a mongodb locally using the bitna
 
 helm repo add bitnami https://charts.bitnami.com/bitnami
 
-helm install bitnami/mongodb --generate-name
+password = $(curl --silent https://www.passwordrandom.com/query?command=password)
+
+## Secrets management 
+
+For this example I am using Hahicorp vault. Please follow to install it:
+https://www.google.com/search?q=install+vault&oq=install+vault&aqs=chrome..69i57j69i60.1967j0j7&sourceid=chrome&ie=UTF-8
+
+first create a secrets engine for the movieapp:
+
+```
+vault secrets enable -path=movieapp kv
+```
+
+Get the secret as follows
+
+```
+password=$(vault kv get -field MONGO_PASSWORD movieapp/config)
+
+## Installing mongodb via Helm
+
+helm install ratings bitnami/mongodb \ 
+    --set auth.username=movieapp,auth.password=$password,auth.database=movies
 
 The following output is printed below (password export statements omitted):
 
