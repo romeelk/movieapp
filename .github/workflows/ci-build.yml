@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Movie app docker build
+name: Movie app CI build
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -12,6 +12,34 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  lintweb:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6]
+    defaults:
+     run:
+      shell: bash
+      working-directory: ./src/web
+    steps:
+    - uses: actions/checkout@v2
+    - name: python-lint
+      uses: CyberZHG/github-action-python-lint@0.0.2
+
+  lintapi:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6]
+    defaults:
+     run:
+      shell: bash
+      working-directory: ./src/api
+    steps:
+    - uses: actions/checkout@v2
+    - name: python-lint
+      uses: CyberZHG/github-action-python-lint@0.0.2
+
   # This workflow contains a single job called "build"
   buildmovieweb:
     # The type of runner that the job will run on

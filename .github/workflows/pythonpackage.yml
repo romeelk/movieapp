@@ -1,39 +1,12 @@
-# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+# # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Build movie app
+# name: Build movie app
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+# on:
+#   push:
+#     branches: [ master ]
+#   pull_request:
+#     branches: [ master ]
 
-jobs:
-  lintweb:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.6]
-    defaults:
-     run:
-      shell: bash
-      working-directory: ./src/web
-    steps:
-    - uses: actions/checkout@v2
-    - name: python-lint
-      uses: CyberZHG/github-action-python-lint@0.0.2
-
-  lintapi:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.6]
-    defaults:
-     run:
-      shell: bash
-      working-directory: ./src/api
-    steps:
-    - uses: actions/checkout@v2
-    - name: python-lint
-      uses: CyberZHG/github-action-python-lint@0.0.2
+# jobs:
