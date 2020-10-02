@@ -71,16 +71,19 @@ Get the secret as follows
 
 ```
 password=$(vault kv get -field MONGO_PASSWORD movieapp/config)
-
+```
 ## Installing mongodb via Helm
 
+```
 helm install ratings bitnami/mongodb \ 
     --set auth.username=movieapp,auth.password=$password,auth.database=movies
-
+```
 The following output is printed below (password export statements omitted):
 
+```
 MongoDB can be accessed via port 27017 on the following DNS name from within your cluster:
     mongodb-1592347563.default.svc.cluster.local
+```
 
 Record the name of the mongodb fqdn within the cluster e.g  mongodb-1592347563.default.svc.cluster.local
 Record the root password env var $MONGODB_ROOT_PASSWORD to be used in a connection string: 
@@ -89,7 +92,9 @@ Record the root password env var $MONGODB_ROOT_PASSWORD to be used in a connecti
 kubectl port-forward --namespace default svc/mongodb-1592347563 27017:27017 &
 mongo --host 127.0.0.1 --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
 ```
-Create a k8s secret for the mongodb connection string:
+
+
+
 ```
 kubectl create secret generic movieappsecret --from-literal=mongodburi=mongodb://root:$MONGODB_ROOT_PASSWORD@mongodb-1592347563.default.svc.cluster.local:27017/
 ```
