@@ -23,10 +23,13 @@ jobs:
       working-directory: ./src/web
     steps:
     - uses: actions/checkout@v2
-    - name: python-lint
-      uses: py-actions/flake8@v1.0.1
-      with:
-        max-line-length: 240
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=240 --statistics
 
   lintapi:
     runs-on: ubuntu-latest
@@ -40,9 +43,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: python-lint
-      uses: py-actions/flake8@v1.0.1
-      with:
-        max-line-length: 240
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=240 --statistics
+
 
   # This workflow contains a single job called "build"
   buildmovieweb:
