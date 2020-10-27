@@ -14,44 +14,38 @@ on:
 jobs:
   lintweb:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.8]
-    defaults:
-     run:
-      shell: bash
-      working-directory: ./src/web
+    name: Lint
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python environment
-      uses: actions/setup-python@v1
-      with:
+      - name: Check out source repository
+        uses: actions/checkout@v2
+      - name: Set up Python environment
+        uses: actions/setup-python@v1
+        with:
           python-version: "3.8"
-    - name: flake8 Lint
-      uses: py-actions/flake8@v1
-      with:
-          max-line-length: "240"
+      - name: flake8 Lint
+        uses: py-actions/flake8@v1
+        with:
+          ignore: "F401"
+          exclude: "src/ignoreme.py"
+          max-line-length: "100"
           path: "src"
 
   lintapi:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.8]
-    defaults:
-     run:
-      shell: bash
-      working-directory: ./src/api
+    name: Lint
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python environment
-      uses: actions/setup-python@v1
-      with:
+      - name: Check out source repository
+        uses: actions/checkout@v2
+      - name: Set up Python environment
+        uses: actions/setup-python@v1
+        with:
           python-version: "3.8"
-    - name: Lint with flake8
-      uses: py-actions/flake8@v1
-      with:
-          max-line-length: "240"
+      - name: flake8 Lint
+        uses: py-actions/flake8@v1
+        with:
+          ignore: "F401"
+          exclude: "src/ignoreme.py"
+          max-line-length: "100"
           path: "src"
 
 
