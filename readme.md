@@ -27,7 +27,7 @@ in the 12 factor app:
 Here are a few:
 * Backing services (Azure or AWS - blob storage, cosmos db)
 * Externalised config from application code through environment variables
-* Keep secrets out of configuration (API Keys)
+* Keep secrets out of configuration (API Keys, connection strings)
 
 ## Running the app using docker compose
 
@@ -50,53 +50,90 @@ make sure you switch context to the docker-desktop cluster. Easy way to do this 
 the vs code K8s extension. Go to the extension. In the clusters list select docker-desktop and
 set as current cluster.
 
-There are two steps to deploying. First deploy a mongodb locally using the bitnami helm chart:
+There are two steps to deploying. First add helm  mongodb repo locally using the bitnami helm chart:
 
-helm repo add bitnami https://charts.bitnami.com/bitnami
-
-password = $(curl --silent https://www.passwordrandom.com/query?command=password)
+Generate a password for Mongodb:
 
 ## Secrets management 
 
 For this example I am using Hahicorp vault. Please follow to install it:
 https://www.google.com/search?q=install+vault&oq=install+vault&aqs=chrome..69i57j69i60.1967j0j7&sourceid=chrome&ie=UTF-8
 
-first create a secrets engine for the movieapp:
+Start the vault in dev mode
+``` 
+vault server -dev
+```
+
+In another terminal start the client
+
+```
+export VAULT_ADDR='http://127.0.0.1:8200'
+```
+
+first create a secrets for the movieapp:
+
+Generate password for mongodb pod
+
+```
+password=$(curl --silent https://www.passwordrandom.com/query?command=password)
+```
+Set the secret in vault:
 
 ```
 vault secrets enable -path=movieapp kv
+vault kv put secret/movieapp MONGO_PASSWORD=$password
 ```
 
-Get the secret as follows
-
+Verify secret:
 ```
 password=$(vault kv get -field MONGO_PASSWORD movieapp/config)
 ```
+
+
 ## Installing mongodb via Helm
 
 ```
-helm install ratings bitnami/mongodb \ 
-    --set auth.username=movieapp,auth.password=$password,auth.database=movies
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm install moviedb bitnami/mongodb --set auth.username=movieapp,auth.password=$password,auth.database=movies
 ```
 The following output is printed below (password export statements omitted):
 
 ```
-MongoDB can be accessed via port 27017 on the following DNS name from within your cluster:
-    mongodb-1592347563.default.svc.cluster.local
+
+NAME: moviedb
+LAST DEPLOYED: Sun Oct 25 22:26:33 2020
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+** Please be patient while the chart is being deployed **
+
+MongoDB can be accessed via port 27017 on the following DNS name(s) from within your cluster:
+
+    moviedb-mongodb.default.svc.cluster.local
+
+To get the root password run:
+
+    export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace default moviedb-mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 --decode)
+
+To connect to your database, create a MongoDB client container:
+
+    kubectl run --namespace default moviedb-mongodb-client --rm --tty -i --restart='Never' --image docker.io/bitnami/mongodb:4.4.1-debian-10-r39 --command -- bash
+
+Then, run the following command:
+    mongo admin --host "moviedb-mongodb" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
+
+To connect to your database from outside the cluster execute the following commands:
+
+    kubectl port-forward --namespace default svc/moviedb-mongodb 27017:27017 &
+    mongo --host 127.0.0.1 --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
 ```
 
-Record the name of the mongodb fqdn within the cluster e.g  mongodb-1592347563.default.svc.cluster.local
-Record the root password env var $MONGODB_ROOT_PASSWORD to be used in a connection string: 
 
 ```
-kubectl port-forward --namespace default svc/mongodb-1592347563 27017:27017 &
-mongo --host 127.0.0.1 --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
-```
-
-
-
-```
-kubectl create secret generic movieappsecret --from-literal=mongodburi=mongodb://root:$MONGODB_ROOT_PASSWORD@mongodb-1592347563.default.svc.cluster.local:27017/
+kubectl create secret generic movieappsecret --from-literal=mongodburi=mongodb://root:$MONGODB_ROOT_PASSWORD@moviedb-mongodb.default.svc.cluster.local27017/
 ```
 
 Reference the secret in the deployment manifest for the movieapi pod as follows:
