@@ -30,6 +30,7 @@ jobs:
     - name: Run linters
       uses: wearerequired/lint-action@v1
       with:
+          github_token: ${{ secrets.github_token }}
           # Enable linters
           black: true
           flake8: true
@@ -53,8 +54,10 @@ jobs:
     - name: Run linters
       uses: wearerequired/lint-action@v1
       with:
+          github_token: ${{ secrets.github_token }}
           # Enable linters
           black: true
+          flake8: true
 
 
   # This workflow contains a single job called "build"
