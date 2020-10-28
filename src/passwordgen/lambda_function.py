@@ -26,4 +26,3 @@ def response(response_code, value):
         'statusCode': response_code,
         'body': json.dumps(value)
     }
-
