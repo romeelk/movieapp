@@ -155,3 +155,8 @@ Once this is done deploy:
 kubectl apply -f deployment-local.yaml 
 ```
 
+# Github lint
+
+The project uses https://github.com/marketplace/actions/lint-action
+
+to lint the python files.
