@@ -14,7 +14,7 @@ on:
 jobs:
   lintweb:
     runs-on: ubuntu-latest
-    name: Lint
+    name: Lintweb
     steps:
     - name: Check out Git repository
       uses: actions/checkout@v2
@@ -34,12 +34,12 @@ jobs:
           # Enable linters
           flake8: true
           flake8_args: --max-line-length=240
-          flake8_dir: /src/web
+          flake8_dir: ./src/web
 
 
   lintapi:
     runs-on: ubuntu-latest
-    name: Lint
+    name: Lintapi
     steps:
     - name: Check out Git repository
       uses: actions/checkout@v2
@@ -59,7 +59,7 @@ jobs:
           # Enable linters
           flake8: true
           flake8_args: --max-line-length=240
-          flake8_dir: /src/api
+          flake8_dir: ./src/api
 
 
   # This workflow contains a single job called "build"
