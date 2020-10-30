@@ -34,6 +34,7 @@ jobs:
           # Enable linters
           flake8: true
           flake8_args: --max-line-length=240
+          flake8_dir: /src/web
 
 
   lintapi:
@@ -58,6 +59,7 @@ jobs:
           # Enable linters
           flake8: true
           flake8_args: --max-line-length=240
+          flake8_dir: /src/api
 
 
   # This workflow contains a single job called "build"
@@ -86,4 +88,28 @@ jobs:
           push: true
           tags: romeelk/movieweb:latest
 
+  buildmovieapi:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_USER_NAME }}
+          password: ${{ secrets.DOCKER_PAT_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./src/web
+          file: ./src/api/Dockerfile
+          push: true
+          tags: romeelk/movieapi:latest
 
