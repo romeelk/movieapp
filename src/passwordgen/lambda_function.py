@@ -1,11 +1,15 @@
 import json
 import random
 import string
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 def lambda_handler(event, context):
 
-    print(event)
+    logger.info(event)
     number = int(event['number'])
     if number == 0:
         return response(400, "Invalid request:number key must be integer val between 8,10")
@@ -16,7 +20,7 @@ def lambda_handler(event, context):
 
 
 def password_gen(number):
-    letters = string.ascii_lowercase
+    letters = string.ascii_lowercase+string.ascii_uppercase+string.digits
     password = ''.join(random.sample(letters, number))
     return password
 
