@@ -86,7 +86,7 @@ jobs:
           context: ./src/web
           file: ./src/web/Dockerfile
           push: true
-          tags: romeelk/movieweb:latest
+          tags: romeelk/movieweb:${{ github.sha }}
 
   buildmovieapi:
     # The type of runner that the job will run on
