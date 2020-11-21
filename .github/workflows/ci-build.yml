@@ -111,5 +111,5 @@ jobs:
           context: ./src/web
           file: ./src/api/Dockerfile
           push: true
-          tags: romeelk/movieapi:latest
+          tags: romeelk/movieapi:${{ github.sha }}
 
