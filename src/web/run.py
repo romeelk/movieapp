@@ -2,7 +2,7 @@ import os
 import sys
 
 
-from movieapp import init_app
+from movieweb import init_app
 from dotenv import load_dotenv
 
 

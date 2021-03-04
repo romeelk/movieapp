@@ -8,4 +8,4 @@ else
    aws s3api create-bucket --bucket $S3_BUCKET --region eu-west-1 --create-bucket-configuration  LocationConstraint=eu-west-1
 
 fi
-aws s3 cp ../src/web/static/images s3://$S3_BUCKET/images --recursive
+aws s3 cp ../../src/web/movieweb/static/images s3://$S3_BUCKET/images --recursive

@@ -29,7 +29,14 @@ Here are a few:
 * Externalised config from application code through environment variables
 * Keep secrets out of configuration (API Keys, connection strings)
 
-## Running the app using docker compose
+## Pre-requisites
+
+* An AWS account. I use s3 bucket to store the landing page images
+* Azure account for Cosmosdb
+* Azure and AWS clis 
+* Hahsicorp Vault locally
+
+## Running the app locally using docker compose
 
 To build the app using docker compose run the following command:
 
@@ -47,7 +54,7 @@ docker-compose -f docker-compose.yml -f docker-compose-ci.yml up
 
 You can enable Kubernetes locally on Docker desktop. Once you have done that
 make sure you switch context to the docker-desktop cluster. Easy way to do this is to install
-the vs code K8s extension. Go to the extension. In the clusters list select docker-desktop and
+the VS code K8s extension. Go to the extension. In the clusters list select docker-desktop and
 set as current cluster.
 
 There are two steps to deploying. First add helm  mongodb repo locally using the bitnami helm chart:
@@ -133,7 +140,7 @@ To connect to your database from outside the cluster execute the following comma
 
 
 ```
-kubectl create secret generic movieappsecret --from-literal=mongodburi=mongodb://root:$MONGODB_ROOT_PASSWORD@moviedb-mongodb.default.svc.cluster.local27017/
+kubectl create secret generic movieappsecret --from-literal=mongodburi=mongodb://root:$MONGODB_ROOT_PASSWORD@moviedb-mongodb.default.svc.cluster.local
 ```
 
 Reference the secret in the deployment manifest for the movieapi pod as follows:
