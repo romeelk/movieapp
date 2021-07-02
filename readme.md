@@ -93,7 +93,7 @@ vault kv put secret/movieapp MONGO_PASSWORD=$password
 
 Verify secret:
 ```
-password=$(vault kv get -field MONGO_PASSWORD movieapp/config)
+password=$(vault kv get -field MONGO_PASSWORD secret/movieapp)
 ```
 
 
@@ -138,7 +138,7 @@ To connect to your database from outside the cluster execute the following comma
     mongo --host 127.0.0.1 --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
 ```
 
-
+Create the secret for the mongodb db
 ```
 kubectl create secret generic movieappsecret --from-literal=mongodburi=mongodb://root:$MONGODB_ROOT_PASSWORD@moviedb-mongodb.default.svc.cluster.local
 ```
